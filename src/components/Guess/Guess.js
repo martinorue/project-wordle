@@ -6,15 +6,21 @@ import { checkGuess } from '../../game-helpers';
 
 function Guess({ guesses, answer }) {
   const guessesArrayLetters = guesses.map(guess => guess.split(''));
-  //${checkGuess(guesses[i])}
+
+
   return(
    <div className="guess-results">
-   {range(0, NUM_OF_GUESSES_ALLOWED).map(index =>
+   {range(0, NUM_OF_GUESSES_ALLOWED).map((_,index) =>
      <p className="guess" key={index}>
-      {range(0, 5).map((item,i) => 
-      <span className={`cell ${checkGuess(guesses[index], answer)}`} key={i}>
-        {guessesArrayLetters[index] && guessesArrayLetters[index][i]}
-      </span>)}
+      {range(0, 5).map((_,i) =>
+        {const status = guesses[index] ? checkGuess(guesses[index], answer)[i].status : 'cell';
+        return (
+          <span className={status ? `cell ${status}` : 'cell'} key={i}>
+            {guessesArrayLetters[index] && guessesArrayLetters[index][i]}
+          </span>
+        )
+        }
+      )}
      </p>
      )}
   </div>
